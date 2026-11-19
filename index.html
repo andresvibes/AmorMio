@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#eaf6ff">
+    <title>Para mi novio</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        romantic: ['Allura', 'cursive'],
+                        elegant: ['Playfair Display', 'serif']
+                    },
+                    colors: {
+                        roseSoft: '#dceeff',
+                        roseDark: '#6396c4',
+                        cream: '#f7fbff'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f7fbff;
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            min-height: 100svh;
+        }
+
+        /* Fondo azul romántico */
+        .romantic-bg {
+            background:
+                radial-gradient(circle at 10% 15%, #dceeff 0, transparent 35%),
+                radial-gradient(circle at 90% 85%, #e5eaff 0, transparent 35%),
+                #f7fbff;
+        }
+
+        /* Entrada */
+        .fade-in {
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Corazones flotantes */
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            pointer-events: none;
+            z-index: 0;
+            color: #8dbce5;
+            opacity: 0.45;
+            animation: floatHeart linear forwards;
+        }
+
+        @keyframes floatHeart {
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Carta */
+        .letter-paper {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid #dceaf7;
+            box-shadow: 0 12px 45px rgba(91, 139, 184, 0.10);
+        }
+
+        .typewriter-cursor::after {
+            content: '|';
+            color: #6396c4;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Botones */
+        .romantic-button {
+            background: linear-gradient(135deg, #83b9e5, #6396c4);
+            transition: all 0.3s ease;
+            box-shadow: 0 7px 20px rgba(99, 150, 196, 0.22);
+        }
+
+        .romantic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 150, 196, 0.30);
+        }
+
+        .romantic-button:active {
+            transform: scale(0.97);
+        }
+
+        /* Fotografías */
+        .photo-frame {
+            background: white;
+            padding: 12px 12px 45px;
+            box-shadow: 0 12px 35px rgba(80, 120, 160, 0.13);
+            transform: rotate(-2deg);
+            transition: transform 0.5s ease;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.01);
+        }
+
+        .photo-enter {
+            animation: photoEnter 0.7s ease;
+        }
+
+        @keyframes photoEnter {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95) rotate(-4deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(-2deg);
+            }
+        }
+
+        .hidden-screen {
+            display: none !important;
+        }
+
+        /* Barra de desplazamiento */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #a9cce9;
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f7fbff;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+
+<body class="romantic-bg text-gray-700">
+
+    <!-- Música -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="musica/WhatsApp Audio 2026-11-19 at 1.32.05 PM.mp4" type="audio/mpeg">
+    </audio>
+
+    <!-- Corazones decorativos -->
+    <div id="heartsContainer"></div>
+
+    <!-- ================================= -->
+    <!-- PANTALLA 1: BIENVENIDA -->
+    <!-- ================================= -->
+
+    <section id="welcomeScreen"
+        class="screen relative z-10 flex flex-col items-center justify-center px-6 text-center">
+
+        <div class="fade-in max-w-md">
+
+            <div class="text-5xl mb-8 animate-pulse">
+            </div>
+
+            <p class="font-romantic text-5xl sm:text-6xl text-roseDark mb-5 leading-tight">
+                Amor mío, feliz mes mi vida,
+            </p>
+
+            <h1 class="font-elegant text-xl sm:text-2xl text-gray-700 leading-relaxed">
+                Eres lo mejor que me ha pasado en mi 2026
+            </h1>
+
+            <div class="flex justify-center gap-3 my-8 text-sky-300 text-xl">
+                <span>♥</span>
+            </div>
+
+            <p class="text-sm text-gray-400 mb-5">
+                No es mucho, pero es con muchoooooo amor
+            </p>
+
+            <button id="startButton"
+                class="romantic-button text-white px-8 py-3 rounded-full text-sm font-semibold">
+                Ver
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ================================= -->
+    <!-- PANTALLA 2: CARTA -->
+    <!-- ================================= -->
+
+    <section id="letterScreen"
+        class="hidden-screen relative z-10 min-h-screen px-4 py-10 sm:py-14">
+
+        <div class="max-w-2xl mx-auto">
+
+            <div class="text-center mb-8 fade-in">
+
+                <p class="text-xs tracking-widest text-sky-300 uppercase mt-2">
+                    Nuestro primer mes juntos
+                </p>
+
+            </div>
+
+            <article id="letterPaper"
+                class="letter-paper rounded-3xl p-6 sm:p-10">
+
+                <div id="letterContent"
+                    class="text-gray-600 text-sm sm:text-base leading-8 whitespace-pre-wrap">
+                </div>
+
+                <div class="text-center mt-10 mb-3">
+                    <span class="text-3xl text-sky-300">♡</span>
+
+                    <p class="font-romantic text-3xl text-roseDark mt-2">
+                        Con todo mi amor...
+                    </p>
+                </div>
+
+            </article>
+
+            <!-- Botón de galería -->
+            <div id="galleryButtonContainer"
+                class="text-center mt-8 mb-12 fade-in">
+
+                <p class="font-romantic text-3xl text-roseDark mb-4">
+                    ¿Recuerdas cuando nos vimos?
+                </p>
+
+                <button id="openGallery"
+                    class="romantic-button text-white px-8 py-4 rounded-full font-semibold text-sm">
+                    Nuestra galería de fotos
+                </button>
+
+            </div>
+
+            <p class="text-center text-xs text-sky-300 mt-8 mb-4">
+                El mejor mes de mi vida
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ================================= -->
+    <!-- PANTALLA 3: GALERÍA -->
+    <!-- ================================= -->
+
+    <section id="galleryScreen"
+        class="hidden-screen screen relative z-10 px-5 py-10 flex flex-col items-center justify-center">
+
+        <div class="w-full max-w-md text-center">
+
+            <h2 class="font-romantic text-5xl text-roseDark">
+                Nuestros recuerdos
+            </h2>
+
+            <p class="text-sm text-gray-400 mt-3 mb-8">
+                Cada foto es un momento que me gustaria repetir
+            </p>
+
+            <!-- Fotografía actual -->
+            <div class="photo-frame rounded-sm mx-auto w-full max-w-xs h-[390px] sm:h-[430px] photo-enter"
+                id="photoFrame">
+
+                <img id="galleryImage"
+                    src="fotos/foto1.jpeg"
+                    alt="Un recuerdo juntos">
+
+                <p id="photoCaption"
+                    class="font-romantic text-3xl text-roseDark mt-3">
+                    Ya ocupas un buen espacio en mi corazoncito
+                </p>
+
+            </div>
+
+            <!-- Contador -->
+            <p id="photoCounter"
+                class="text-xs text-sky-500 mt-8 mb-5">
+                1 / 5
+            </p>
+
+            <!-- Navegación -->
+            <div class="flex justify-center items-center gap-5">
+
+                <button id="previousPhoto"
+                    class="w-12 h-12 rounded-full border border-sky-200 text-roseDark text-xl hover:bg-sky-100 transition">
+                    ←
+                </button>
+
+                <button id="nextPhoto"
+                    class="romantic-button text-white px-7 py-3 rounded-full text-sm font-semibold">
+                    Siguiente ❤️
+                </button>
+
+            </div>
+
+            <button id="backToLetter"
+                class="mt-8 text-sm text-roseDark underline underline-offset-4">
+                ← Volver
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ================================= -->
+
+    <script>
+
+        // ELEMENTOS
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const letterScreen = document.getElementById('letterScreen');
+        const galleryScreen = document.getElementById('galleryScreen');
+
+        const startButton = document.getElementById('startButton');
+        const music = document.getElementById('backgroundMusic');
+
+        const letterContent = document.getElementById('letterContent');
+        const galleryButtonContainer = document.getElementById('galleryButtonContainer');
+
+        const galleryImage = document.getElementById('galleryImage');
+        const photoCaption = document.getElementById('photoCaption');
+        const photoCounter = document.getElementById('photoCounter');
+        const photoFrame = document.getElementById('photoFrame');
+
+
+        // =================================
+        // TEXTO DE LA CARTA
+        // =================================
+
+        const paragraphs = [
+
+            `Amor, hoy hace un mes conocí a alguien que jamás esperé, jamás busqué, lo raro es que fue lo mejor que me pude haber pasado, a ti, en ti encontré a quien  tanto busqué, me es difícil expresarme con todo lo que me haces sentir.. solo puedo decir, te amo.`,
+
+            `No se como en tan poco tiempo te ganaste mi cariño y mi confianza, solo sé que supiste hacerlo, ocupas un espacio inmenso en mi corazoncito, le agradezco infinitamente a Dios por permitirte llegar a mi vida.`,
+
+            `Amo tu sonrisa, en todo lo que tienes fue lo que más me gustó de ti, eres una persona maravillosa, inteligente, amable y me honra saber que eres mi novio.`,
+
+            `No se Dios que piense de mí, ni de ti, solo se que puedo agradecerle a él por permitirme ser parte de vida, pues tú ya eres parte de la mía.`,
+
+            `No te prometo una relación perfecta, no lo será, soy malgeniado, rebelde, pero de alguna u otra manera tú sabes calmarme, me entiendes y si algo tengo claro es que a tu lado soy feliz.`,
+
+            `Se que este será el primero de muchos que vendrán, años, hasta que llegue ese momento donde podamos estar juntos, ser felices, vivir esa vida que tanto hablamos, que tanto planeamos.`,
+
+            `Te amo con cada parte de mi corazón, amo cada parte de ti, cada una de tus actitudes, cada parte de tu cuerpo, te lo eh dicho cientos de veces y te lo volveré a decir, eres mi hombre ideal.`,
+
+            `Amorcito, por favor, nunca te vayas de mi lado, ya eres parte de mis planes, de mi futúro, de mis metas, hiciste que cada cosa contigo fuera especial, que mi corazón se sintiera amado, se sintiera querido y eso me marcó, te elegiría en este y en cada uno de los universos posibles.`,
+
+            `Te amo vida mia`
+
+        ];
+
+
+        // =================================
+        // EFECTO MÁQUINA DE ESCRIBIR
+        // =================================
+
+        const typingSpeed = 32;
+
+        let currentParagraph = 0;
+        let currentCharacter = 0;
+
+        let totalCharacters = paragraphs.reduce(
+            (total, paragraph) => total + paragraph.length,
+            0
+        );
+
+        let writtenCharacters = 0;
+        let galleryButtonShown = false;
+        let typingStarted = false;
+
+        let currentTextElement = null;
+
+        function writeLetter() {
+
+            if (currentParagraph >= paragraphs.length) {
+
+                if (currentTextElement) {
+                    currentTextElement.classList.remove('typewriter-cursor');
+                }
+
+                return;
+            }
+
+            const paragraph = paragraphs[currentParagraph];
+
+            // Crear párrafo
+            if (!currentTextElement) {
+
+                currentTextElement = document.createElement('p');
+
+                currentTextElement.className =
+                    'mb-7 typewriter-cursor';
+
+                letterContent.appendChild(currentTextElement);
+            }
+
+            // Escribir letra
+            if (currentCharacter < paragraph.length) {
+
+                currentTextElement.textContent +=
+                    paragraph.charAt(currentCharacter);
+
+                currentCharacter++;
+                writtenCharacters++;
+
+                // Mantener visible el texto
+                const rect = currentTextElement.getBoundingClientRect();
+
+                if (rect.bottom > window.innerHeight - 90) {
+                    window.scrollBy({
+                        top: 45,
+                        behavior: 'smooth'
+                    });
+                }
+
+                setTimeout(writeLetter, typingSpeed);
+
+            } else {
+
+                currentTextElement.classList.remove('typewriter-cursor');
+
+                currentParagraph++;
+                currentCharacter = 0;
+                currentTextElement = null;
+
+                setTimeout(writeLetter, 500);
+            }
+        }
+
+
+        // =================================
+        // INICIAR EXPERIENCIA
+        // =================================
+
+        startButton.addEventListener('click', () => {
+
+            startButton.disabled = true;
+
+            // Activar música
+            music.volume = 0.45;
+
+            music.play().catch(() => {
+                console.log('La reproducción de música fue bloqueada.');
+            });
+
+            // Mostrar inmediatamente la carta
+            welcomeScreen.classList.add('hidden-screen');
+
+            letterScreen.classList.remove('hidden-screen');
+
+            window.scrollTo(0, 0);
+
+            // Comenzar a escribir la carta
+            if (!typingStarted) {
+                typingStarted = true;
+                setTimeout(writeLetter, 700);
+            }
+
+        });
+
+
+        // =================================
+        // GALERÍA DE FOTOGRAFÍAS
+        // =================================
+
+        const photos = [
+
+            {
+                src: 'fotos/foto1.jpeg',
+                caption: 'Mi foto favorita'
+            },
+
+            {
+                src: 'fotos/foto2.jpeg',
+                caption: 'tenerte ahí abrazadito fue magico'
+            },
+
+            {
+                src: 'fotos/foto3.jpeg',
+                caption: 'Tú cambiaste mi vida'
+            },
+
+            {
+                src: 'fotos/foto4.jpeg',
+                caption: 'Te amo mi bebé'
+            },
+
+            {
+                src: 'fotos/foto5.jpeg',
+                caption: 'Mi niño de ojos lindos'
+            }
+
+        ];
+
+        let currentPhoto = 0;
+
+        function showPhoto(index) {
+
+            currentPhoto = (index + photos.length) % photos.length;
+
+            const photo = photos[currentPhoto];
+
+            photoFrame.classList.remove('photo-enter');
+
+            // Reiniciar animación
+            void photoFrame.offsetWidth;
+
+            galleryImage.src = photo.src;
+            galleryImage.alt = photo.caption;
+
+            photoCaption.textContent = photo.caption;
+
+            photoCounter.textContent =
+                `${currentPhoto + 1} / ${photos.length}`;
+
+            photoFrame.classList.add('photo-enter');
+
+            // Cambiar texto del botón final
+            const nextButton = document.getElementById('nextPhoto');
+
+            if (currentPhoto === photos.length - 1) {
+                nextButton.textContent = 'Volver a empezar ';
+            } else {
+                nextButton.textContent = 'Siguiente ';
+            }
+        }
+
+
+        // Abrir galería
+        document.getElementById('openGallery').addEventListener('click', () => {
+
+            letterScreen.classList.add('hidden-screen');
+
+            galleryScreen.classList.remove('hidden-screen');
+
+            showPhoto(0);
+
+            window.scrollTo(0, 0);
+
+        });
+
+
+        // Foto siguiente
+        document.getElementById('nextPhoto').addEventListener('click', () => {
+
+            showPhoto(currentPhoto + 1);
+
+        });
+
+
+        // Foto anterior
+        document.getElementById('previousPhoto').addEventListener('click', () => {
+
+            showPhoto(currentPhoto - 1);
+
+        });
+
+
+        // Volver a la carta
+        document.getElementById('backToLetter').addEventListener('click', () => {
+
+            galleryScreen.classList.add('hidden-screen');
+
+            letterScreen.classList.remove('hidden-screen');
+
+            window.scrollTo(0, 0);
+
+        });
+
+
+        // =================================
+        // CORAZONES FLOTANTES
+        // =================================
+
+        function createHeart() {
+
+            const heart = document.createElement('span');
+
+            heart.className = 'heart';
+
+            heart.textContent = Math.random() > 0.5 ? '♥' : '♡';
+
+            heart.style.left = Math.random() * 100 + 'vw';
+
+            heart.style.fontSize =
+                (Math.random() * 15 + 12) + 'px';
+
+            heart.style.animationDuration =
+                (Math.random() * 5 + 7) + 's';
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 12000);
+
+        }
+
+        setInterval(createHeart, 1300);
+
+
+        // =================================
+        // NAVEGACIÓN CON DESLIZAMIENTO
+        // =================================
+
+        let touchStartX = 0;
+
+        galleryScreen.addEventListener('touchstart', (event) => {
+
+            touchStartX = event.changedTouches[0].screenX;
+
+        }, { passive: true });
+
+
+        galleryScreen.addEventListener('touchend', (event) => {
+
+            const touchEndX = event.changedTouches[0].screenX;
+
+            const difference = touchStartX - touchEndX;
+
+            if (Math.abs(difference) > 55) {
+
+                if (difference > 0) {
+                    showPhoto(currentPhoto + 1);
+                } else {
+                    showPhoto(currentPhoto - 1);
+                }
+
+            }
+
+        }, { passive: true });
+
+    </script>
+
+</body>
+</html>
